@@ -1,0 +1,17 @@
+{% block title %}BIENVENIDO A XOKASCIA{% endblock %}
+
+{% block body %}
+    <h1>Tu reserva ha sido confirmada</h1>
+    
+    <p>Estos son los detalles de tu reserva:</p>
+    
+    <p>Fecha: {{ reserva.fecha|date('d/m/Y') }}</p>
+    <p>Hora: {{ reserva.hora|date('H:i') }}</p>
+    <p>Nombre: {{ reserva.nombre }}</p>
+    <p>Correo electrónico: {{ reserva.email }}</p>
+    <p>... otros datos de la reserva ...</p>
+    
+    <p>Adjunto encontrarás un PDF con más información.</p>
+    
+    <p>¡Gracias por tu reserva!</p>
+{% endblock %}

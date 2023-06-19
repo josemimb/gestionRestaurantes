@@ -1,0 +1,31 @@
+
+{% extends 'base.html.twig' %}
+  
+{% block title %}restaurante{% endblock %}
+  
+{% block body %}
+    <div class="container">
+        <h2 class="text-center mt-5 mb-3">Informacion del restaurante:</h2>
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-outline-info float-right" href="{{ path('app_restaurante_index') }}"> 
+                    Mantenimiento restaurante
+                </a>
+            </div>
+            <div class="card-body">
+                <b class="text-muted">Nombre:</b>
+                <p>{{ restaurante.nombre }}</p>
+                <b class="text-muted">direccion:</b>
+                <p>{{ restaurante.direccion }}</p>
+                <b class="text-muted">Horario:</b>
+                <p>{{ restaurante.horario }}</p>
+                <b class="text-muted">Contacto:</b>
+                <p>{{ restaurante.contacto }}</p>
+                <b class="text-muted">Descripcion:</b>
+                <p>{{ restaurante.descripcion }}</p>
+                {# <b class="text-muted">Imagen:</b> #}
+                {# <p> <img src="{{ vich_uploader_asset(restaurante, 'imageFile') }}" alt="{{restaurante.nombre}}" height="150px" width="200"> </p> #}
+            </div>
+        </div>
+    </div>
+{% endblock %}

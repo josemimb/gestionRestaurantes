@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+  
+{% block title %}Nueva opinion{% endblock %}
+  
+{% block body %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                {# <a class="btn btn-outline-info float-right" href="{{ path('restaurante_mesas', {'id': restaurante.id}) }}"> 
+                    Opiniones
+                </a> #}
+        <h2 class="text-center mt-3 mb-3">Escribe tu opinión</h2>
+
+
+            </div>
+            <div class="card-body">
+           
+                 {{ include('opinion/_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,71 @@
+<style>
+
+img{
+    width: 150px;
+}
+
+.form-check-label{
+    display:none;
+}
+
+.form-check .form-check-input {
+    display: none;
+}
+
+</style>
+
+<div class="row">
+
+            <div class="col-md-6 col-12">
+        {{ form_start(form, {'attr': {'id':'formulario'}}) }}
+
+                <div class="form-group mb-3">
+                    {{ form_row(form.nombre, {'attr': {'class': 'form-control', 'id':'nombre'}}) }}
+                </div>
+                <div class="error-message"></div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="form-group mb-3">
+                    {{ form_row(form.direccion, {'attr': {'class': 'form-control', 'id':'direccion'}}) }}               
+                </div>
+                <div class="error-message"></div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="form-group mb-3">
+                    {{ form_row(form.horario, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="form-group">
+                    {{ form_row(form.descripcion, {'label': 'Breve descripcion del restaurante','attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="form-group">
+                    {{ form_row(form.imageFile, {'label': 'Imagen del Restaurante','attr': {'class': ''}}) }}
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="form-group">
+                    {{ form_row(form.imageFileCarta, {'label': 'Imagen de la carta','attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="form-group">
+                    {{ form_row(form.contacto, {'label': 'Numero del restaurante','attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            {% if 'ROLE_RESTAURANTE' in app.user.roles %}
+                {{ form_row(form.user, {'label': false, 'attr': {'hidden': true} }) }}
+            {% else %}
+                <div class="col-md-6 col-12">
+                    <div class="form-group">
+                        {{ form_row(form.user, {'label': 'Usuario','attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            {% endif %}
+            <div class="col-12 d-flex justify-content-end">
+                <button class="btn {{ button_color|default('btn-outline-primary') }}  mt-3" >{{ button_label|default('Guardar Restaurante') }}</button>
+            </div>
+    {{ form_end(form) }}
+</div>

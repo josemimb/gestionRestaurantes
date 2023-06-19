@@ -1,0 +1,159 @@
+<style>
+
+img{
+    width: 150px;
+}
+
+.form-check-label{
+    display:none;
+}
+
+.form-check .form-check-input {
+    display: none;
+}
+.fieldset{
+    border:none;
+}
+
+</style>
+
+<div class="row">
+    <div class="col-md-6 col-12">
+        {{ form_start(form) }}
+            <div class="form-group mb-3">
+                    {{ form_label(form.fechaHora, 'Elige un Día') }}
+                    {{ form_widget(form.fechaHora, {'attr': {'class': ' modificacion', 'readonly': 'readonly'}}) }}
+                    {{ form_errors(form.fechaHora) }}
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="form-group mb-3">
+                    {{ form_row(form.hora, {'label': 'Elige una Hora'}) }}
+                    {{ form_errors(form.hora) }}
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="form-group mb-3">
+                    {{ form_row(form.lugar, {'attr': {'class': 'form-control', 'name': 'lugar'}}) }}               
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-12">
+                <div class="form-group">
+                     {{ form_row(form.mesa, {'label': 'Número de comensales', 'attr': {'placeholder': 'Ingrese el número de comensales'}}) }}
+                    {{ form_errors(form.mesa) }}
+                    <small class="text-muted">Si son más de seis personas, por favor llame al siguiente número: 123456789.</small>
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="form-group">
+                    {{ form_row(form.usuario, {
+                        'label': 'Nombre',
+                        'label_attr': {
+                            'class': 'my-label-class d-none',
+                            },
+                        'attr': {
+                            'placeholder': 'Ingrese un valor',
+                            'data-nombre-usuario': app.user.nombre,
+                            'name' : 'usuario'
+                        }
+                    }) }}
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="form-group">
+                    {{ form_row(form.restaurante, {
+                        'label': 'Restaurante', 
+                        'label_attr': {
+                            'class': 'my-label-class d-none',
+                            },
+                        'attr': {'name': 'restaurante'}}) }}
+                    {# {{ form_widget(form.restaurante, { 'attr': {'class': 'hidden'}, 'empty_data': restaurante.id}) }} #}
+                </div>
+            </div>
+
+            <div class="col-md-6 col-12">
+                <div class="form-group">
+                    {# {{ form_row(form.nombreRestaurante, {'label': 'Restaurante','attr': {'class': ''}}) }} #}
+                </div>
+            </div>
+            <div class="col-12 d-flex justify-content-end">
+                <button class="btn {{ button_color|default('btn-primary') }}  mt-3" >{{ button_label|default('Reservar') }}</button>
+            </div>
+    {{ form_end(form) }}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+    <script>
+$(document).ready(function() {
+    var today = new Date(); // Obtener la fecha actual
+
+    // Configurar las opciones del date picker con la localización en español
+    var datePickerOptions = {
+        minDate: today, // Establecer la fecha mínima como el día actual
+        onSelect: function(dateText, inst) {
+            // Convertir la cadena de texto en un objeto Date
+            var selectedDate = new Date(dateText);
+            
+            // Obtener los componentes de fecha necesarios para crear un objeto DateTimeInterface
+            var year = selectedDate.getFullYear();
+            var month = selectedDate.getMonth() + 1; // Los meses en JavaScript comienzan en 0
+            var day = selectedDate.getDate();
+            
+            // Crear la cadena de texto en formato YYYY-MM-DD
+            var formattedDate = year + '-' + month.toString().padStart(2, '0') + '-' + day.toString().padStart(2, '0');
+            
+            // Establecer el valor del campo de entrada con la cadena de texto formateada
+            $(this).val(formattedDate);
+        },
+        // Configurar la localización en español
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+        dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        firstDay: 1,
+        //dateFormat: 'dd/mm/yy' // Formato de fecha (puedes ajustarlo según tus necesidades)
+        beforeShowDay: function(date) {
+            var day = date.getDay();
+            // Deshabilitar la selección de los lunes (day = 1)
+            return [day !== 1];
+        }
+    };
+
+    // Aplicar las opciones al elemento de fechaHora
+    $('.modificacion').datepicker(datePickerOptions);
+});
+</script>
+    <script>// Obtener el elemento select por su ID
+        var selectElement = document.getElementById('reserva_mesa');
+
+        // Cambiar el contenido del primer elemento
+        selectElement.options[0].innerHTML = '1';
+
+  // Obtener todas las opciones
+var options = Array.from(selectElement.options);
+
+// Obtener los números de comensales de las opciones existentes
+var comensales = options.map(function(option) {
+  return option.innerHTML;
+});
+
+// Eliminar los números de comensales duplicados
+var uniqueComensales = comensales.filter(function(comensal, index, self) {
+  return self.indexOf(comensal) === index;
+});
+
+// Vaciar las opciones existentes
+selectElement.innerHTML = '';
+
+// Agregar las opciones únicas al select
+uniqueComensales.forEach(function(comensal) {
+  var option = document.createElement('option');
+  option.value = comensal;
+  option.innerHTML = comensal;
+  selectElement.appendChild(option);
+});
+
+    </script>
+</div>

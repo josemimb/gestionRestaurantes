@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="section section-properties">
+      <div class="container">
+        <div class="row">
+
+          <form action="{{ path('verRestaurantes') }}" method="GET" class="d-flex mb-5">
+            <input type="text" name="busqueda" placeholder="Buscar restaurante" value="{{ app.request.query.get('busqueda') }}" class="form-control me-2">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+          </form>
+        {% for restaurante in restaurantes %}
+          {% if app.request.query.get('busqueda') is empty or restaurante.nombre matches '/^' ~ app.request.query.get('busqueda') ~ '/i' %}
+
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 ">
+            <div class="property-item mb-30 shadow-lg">
+              <a href="{{ path('reseñas', {'id': restaurante.id})}}" class="img">
+                        <div class="position-relative">
+                          <img src="{{ vich_uploader_asset(restaurante, 'imageFile') }}" alt="image" height="3000px" width="2000px" class="img-fluid rounded mx-auto">
+                          <div class="position-absolute top-0 end-0 ">
+                            <div class="btn btn-primary p-3" style="opacity: 0.8">
+                                <div class="text-white text-center">
+                                  {{ mediaValoraciones[restaurante.id] }}
+                                </div> 
+                                <div class="text-white text-center">
+                                    {{ totalOpiniones[restaurante.id] }} reseñas
+                                </div>
+                              
+                            </div>
+                        </div>
+                      </div>
+                        
+                      </a>
+
+              <div class="property-content">
+                
+                <div>
+                  <span class="city d-block mb-3">{{ restaurante.nombre }}</span>
+                  <div class="specs d-flex mb-4">
+                    <span class="d-block d-flex align-items-center me-3">
+                      <span class="me-2"><i class="fa-sharp fa-solid fa-location-dot"></i></span>
+                      <span class="caption">{{ restaurante.direccion }}</span>
+                    </span>
+
+                  </div>
+
+                  <div class="specs d-flex mb-4">
+                    <span class="d-block d-flex align-items-center me-3">
+                      <span class=" me-2"><i class="fa-solid fa-mobile-screen-button"></i></span>
+                      <span class="caption">{{ restaurante.contacto }}</span>
+                    </span>
+                  </div>
+
+                   <a class="specs d-flex mb-4 a__modificado" id="btn-mas-informacion">Más información</a>
+                          <div class="informacion-adicional mt-4" style="display:none;">
+                            <!-- Aquí va el contenido adicional -->
+                            <h6>Informacion acerca de nosotros:</h6>
+                            <span class="d-block mb-2 text-black-50">{{ restaurante.descripcion }}</span>
+                            <h6>Horario:</h6>
+                            <span class="d-block mb-2 text-black-50">{{ restaurante.horario|nl2br }}</span>
+                            <a class="d-flex mb-4 a__modificado mostrar-imagen" data-imagen="{{ vich_uploader_asset(restaurante, 'imageFileCarta') }}">Ver Carta</a>
+                          </div>
+
+                  <a
+                  {# {{ reservaUrl|replace({'id': restaurante.id}) }} #}
+                    href="{{ path('app_reserva_new', {'idRestaurante': restaurante.id, 'idUser': app.user.id })}}"
+                    class="btn btn-primary py-2 px-3">Reservar en {{ nombresRestaurantes[restaurante.id] }}</a
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- .item -->
+          </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          
+          </div>
+        </div>
+        {# <div class="row align-items-center py-5">
+          <div class="col-lg-3">Pagination (1 of 10)</div>
+          <div class="col-lg-6 text-center">
+            <div class="custom-pagination">
+              <a href="#">1</a>
+              <a href="#" class="active">2</a>
+              <a href="#">3</a>
+              <a href="#">4</a>
+              <a href="#">5</a>
+            </div>
+          </div> #}
+        </div>
+      </div>
+    </div>
+
+    <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var mostrarImagenBtns = document.querySelectorAll('.mostrar-imagen');
+
+    mostrarImagenBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var imagenUrl = this.getAttribute('data-imagen');
+
+        // Crear una ventana emergente o un modal con la imagen ampliada
+        var modalHtml = `
+          <div class="modal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                  <img src="${imagenUrl}" class="img-fluid">
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Insertar el modal en el documento
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+        // Mostrar el modal utilizando Bootstrap
+        var modal = document.querySelector('.modal');
+        var bootstrapModal = new bootstrap.Modal(modal);
+        bootstrapModal.show();
+
+        // Manejar el evento de cierre del modal
+        var closeModalBtn = modal.querySelector('.btn-close');
+        closeModalBtn.addEventListener('click', function() {
+          bootstrapModal.hide();
+          modal.remove();
+        });
+      });
+    });
+  });
+</script>
+{% endblock %}

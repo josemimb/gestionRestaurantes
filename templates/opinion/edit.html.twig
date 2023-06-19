@@ -1,0 +1,171 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Opinion{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2 class="text-center mt-5 mb-3">Responder opinion</h2>
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-outline-info float-right" href="{{ path('miRestaurante') }}"> 
+                    Volver a las opiniones
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="row p-2" >
+                <div class="col-md-3">
+                    {{ form_start(formulario) }}
+                        <div class="form-group mb-3 ">
+
+                            <label class="my-label-class mb-2">Valoración</label>
+
+                            <div class="rating">
+                                {% for i in 1..5 %}
+                                    <input type="radio" id="star{{ i }}" name="{{ formulario.valoracion.vars.full_name }}" value="{{ i }}" style="display: none;">
+                                    <label for="star{{ i }}"><i class="fas fa-star fa-lg" data-value="{{ i }}"></i></label>
+                                {% endfor %}
+                            </div>
+
+                            {{ form_row(formulario.valoracion, {
+                                'attr': {
+                                    'class': 'hidden-rating',
+                                    'value': '',
+                                    'readonly': 'readonly'
+                                },
+                            }) }}
+
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group mb-3">
+                                {{ form_row(formulario.comentario, {
+                                    'label': 'Añadir una reseña escrita',
+                                    'label_attr': {
+                                    'class': 'my-label-class'
+                                    },
+                                    'attr': {
+                                        'placeholder': 'Cuenta tu experiencia',
+                                        'class': 'form-control',
+                                        'readonly': 'readonly'
+                                        }
+                                    })
+                                }}               
+                            </div>
+                        </div>
+
+                        <div class="col-md-9">
+                            <div class="form-group mb-3">
+                                {{ form_row(formulario.respuesta, {
+                                    'label': 'Añadir una respuesta',
+                                    'label_attr': {
+                                    'class': 'my-label-class'
+                                    },
+                                    'attr': {
+                                        'placeholder': 'Responde la opinion anterior',
+                                        'class': 'form-control',
+                                        'required': 'required'
+                                        }
+                                    })
+                                }}               
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group mb-3">
+                                {{ form_row(formulario.fecha, {
+                                        'label': 'FechaActual',
+                                        'label_attr': {
+                                        'class': 'my-label-class d-none',
+                                        },
+                                        'attr': {
+                                            'placeholder': 'Cuenta tu experiencia',
+                                            'class': 'form-control d-none',
+                                            'data-fecha-input': 'opinion_fecha',
+                                        },
+                                    })
+                                }}               
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex justify-content-end">
+                            <button class="btn {{ button_color|default('btn-primary') }}  mt-2" >{{ button_label|default('Guardar') }}</button>
+                        </div>
+                {{ form_end(formulario) }}
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Obtener el campo formulario.fecha
+        var $fechaCampo = $('#{{ formulario.fecha.vars.id }}');
+
+        // Obtener el campo de entrada opinion_fecha
+        var $opinionFechaCampo = $('#opinion_fecha');
+
+        // Obtener la fecha actual del dispositivo
+        var fechaActual = new Date();
+        console.log(fechaActual);
+
+        // Formatear la fecha solo con la parte de la fecha (sin la hora)
+        var fechaFormateada = fechaActual.toLocaleDateString();
+
+        // Establecer el valor del campo formulario.fecha
+        $fechaCampo.val(fechaFormateada);
+
+        // Establecer el valor del campo de entrada opinion_fecha
+        $opinionFechaCampo.val(fechaFormateada);
+    });
+
+    const stars = document.querySelectorAll('.rating i');
+    const hiddenRatingInput = document.querySelector('.hidden-rating');
+
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            const value = star.dataset.value;
+            hiddenRatingInput.value = value;
+
+            stars.forEach(s => {
+                if (s.dataset.value <= value) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+        });
+    });
+    // Agregar evento para manejar el caso en que no se seleccione ninguna estrella
+    hiddenRatingInput.addEventListener('change', () => {
+        const value = hiddenRatingInput.value;
+
+        if (value === '') {
+            hiddenRatingInput.value = '0';
+
+            stars.forEach(s => {
+                s.classList.remove('active');
+            });
+        }
+    });
+
+    // Agregar evento al cargar la página para verificar si ninguna estrella está seleccionada inicialmente
+    window.addEventListener('load', () => {
+        const value = hiddenRatingInput.value;
+
+        if (value === '') {
+            hiddenRatingInput.value = '0';
+        }
+
+        stars.forEach(s => {
+            if (s.dataset.value <= value) {
+                s.classList.add('active');
+            } else {
+                s.classList.remove('active');
+            }
+        });
+    });
+</script>
+{% endblock %}

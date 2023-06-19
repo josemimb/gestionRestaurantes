@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+  
+{% block title %}Editar restaurante{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>MIS RESTAURANTES</h1>
+      {# <h1>Reservas para el día {{ dia|date('d/m/Y') }}</h1> #}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Direccion</th>
+          <th>Horario</th>
+          <th>Imagen del restaurante</th>
+          <th>Carta</th>
+          <th>Telefono</th>
+          <th>Descripcion</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for restaurante in restaurantes %}
+          <tr>
+                <td>{{ restaurante.nombre }}</td>
+                <td>{{ restaurante.direccion }}</td>
+                <td>{{ restaurante.horario }}</td>
+                <td> <img src="{{ vich_uploader_asset(restaurante, 'imageFile') }}" alt="{{restaurante.nombre}}" height="150px" width="200"> </td>
+                <td> <img src="{{ vich_uploader_asset(restaurante, 'imageFileCarta') }}" alt="{{restaurante.nombre}}" height="150px" width="200"> </td>
+                <td>{{ restaurante.contacto }}</td>
+                <td>{{ restaurante.descripcion }}</td>
+                <td>
+                    <a
+                        class="btn btn-outline-info"
+                        href="{{ path('restaurante_edit', {'id': restaurante.id}) }}">
+                        Editar
+                    </a>
+                    <a
+                        class="btn btn-outline-success"
+                        href="{{ path('restaurante_mesas', {'id': restaurante.id})}}">
+                        Mesas
+                    </a>
+                    <a
+                        class="btn btn-outline-primary"
+                        href="{{ path('restaurante_opinion', {'id': restaurante.id})}}">
+                        Opiniones
+                    </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

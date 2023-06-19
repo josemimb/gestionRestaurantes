@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar restaurante{% endblock %}
+  
+{% block body %}
+    <div class="container">
+        <h1>Buscar Reservas</h1>
+        <form action="{{ path('mis_reservas') }}" method="get" class="d-flex">
+            <input class="form-control me-2" type="date" placeholder="Elige una fecha" aria-label="Buscar" id="fecha" name="fecha">
+            <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+
+        {% if reservas is empty %}
+            <div class="alert alert-warning text-center mt-3">
+                <h4 class="alert-heading">No se encontraron reservas</h4>
+                <p class="mb-0">Lo sentimos, no hemos encontrado ninguna reserva que coincida con su búsqueda.</p>
+            </div>
+        {% else %}
+            <table class="table table-striped mt-5">
+                <thead>
+                    <tr>
+                        <th class="text-center">Fecha</th>
+                        <th class="text-center">Hora</th>
+                        <th class="text-center">Lugar</th>
+                        <th class="text-center">Mesa para:</th>
+                        <th class="text-center">Nombre</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reserva in reservas %}
+                        <tr>
+                        {% set fechaHora = reserva.fechaHora|date('Y-m-d H:i:s') %}
+                        {% set now = "now"|date('Y-m-d H:i:s') %}
+                            <td class="text-center">{{ reserva.fechaHora|date('Y-m-d') }}</td>
+                            <td class="text-center">{{ reserva.hora|date('H:i') }}</td>
+                            <td class="text-center">{{ reserva.lugar }}</td>
+                            <td class="text-center">{{ reserva.mesa }}</td>
+                            <td class="text-center">{{ reserva.usuario }}</td>
+                            <td >
+                            <form method="post" action="{{ path('app_reserva_delete_restaurante', {'id': reserva.id}) }}" onsubmit="return confirm('¿Estás seguro que deseas eliminar esta reserva?');">
+                                    
+                                    {% if fechaHora >= now %}
+                                    <div class="text-center">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reserva.id) }}"> 
+                                        <button class="btn btn-danger mx-auto">Cancelar</button>
+                                        <a class="btn btn-success" href="{{ path('app_reserva_edit', {'id': reserva.id}) }}">Modificar</a>
+                                    </div>
+                                    {% else %}
+                                        <div class="text-center">
+                                            <p> Reserva ya realizada.</p>
+                                        </div>
+                                    {% endif %}
+                            </form>
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}

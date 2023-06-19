@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+  
+{% block title %}Editar Mesas{% endblock %}
+  
+{% block body %}
+    <div class="container">
+        <h2 class="text-center mt-5 mb-3">Ediccion de mesas</h2>
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-outline-info float-right" href="{{ path('restaurante_mesas', {'id': restaurante.id}) }}"> 
+                    Mesas
+                </a>
+            </div>
+            <div class="card-body">
+                {% include 'mesa/_form.html.twig' with {'button_label': 'Actualizar mesa', 'button_color': 'btn-outline-success'}  %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

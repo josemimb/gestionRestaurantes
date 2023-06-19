@@ -1,0 +1,440 @@
+<!-- /*
+* Template Name: Property
+* Template Author: Untree.co
+* Template URI: https://untree.co/
+* License: https://creativecommons.org/licenses/by/3.0/
+*/ -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Untree.co" />
+        <link rel="shortcut icon" href="{{ asset('imagenes/Logo2.png') }}" />
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap5" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/fonts/icomoon/style.css" />
+    <link rel="stylesheet" href="/fonts/flaticon/font/flaticon.css" />
+
+    <link rel="stylesheet" href="/css/tiny-slider.css" />
+    <link rel="stylesheet" href="/css/aos.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/myCss.css" />
+
+    <title>
+      Click & Go
+    </title>
+    <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
+
+    <style>
+      .property-item .img img {
+        height: 300px;
+        width: 100%;
+        object-fit: cover;
+      }
+    </style>
+     
+  </head>
+  <body>
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close">
+          <span class="icofont-close js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+
+    <nav class="site-nav">
+      <div class="container">
+        <div class="menu-bg-wrap">
+          <div class="site-navigation">
+            <a href="{{ path('inicio') }}" class="logo m-0 float-start">Click & Go</a>
+
+            <ul
+              class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
+              <li class="active"><a href="{{ path('inicio') }}">Inicio</a></li>
+              <li><a href="{{ path('listaRestaurantes') }}">Restaurantes</a></li>
+              <li><a href="{{ path('servicios') }}">Servicios</a></li>
+              <li><a href="{{ path('about') }}">Sobre nosotros</a></li>
+              <li><a href="{{ path('contacto') }}">Contactanos</a></li>
+              <li><a href="{{ path('app_login') }}" class="btn btn-primary">Iniciar sesion</a></li>
+            </ul>
+
+            <a
+              href="#"
+              class="burger light me-auto float-end mt-1 site-menu-toggle js-menu-toggle d-inline-block d-lg-none"
+              data-toggle="collapse"
+              data-target="#main-navbar"
+            >
+              <span></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div
+      class="hero page-inner overlay"
+      style="background-image: url('/images/hero_bg_1.jpg')"
+    >
+      <div class="container">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-lg-9 text-center mt-5">
+            <h1 class="heading" data-aos="fade-up">Restaurantes</h1>
+
+            <nav
+              aria-label="breadcrumb"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
+              <ol class="breadcrumb text-center justify-content-center">
+                <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+                <li
+                  class="breadcrumb-item active text-white-50"
+                  aria-current="page"
+                >
+                  Restaurantes
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="container">
+        <div class="row mb-5 align-items-center">
+          <div class="col-lg-6 text-center mx-auto">
+            <h2 class="font-weight-bold text-primary heading">
+              Restaurantes mas populares
+            </h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="property-slider-wrap">
+              <div class="property-slider">
+                
+              {# Carrusel de los restaurantes mas populares #}
+                {% for restaurant in restaurants %}
+                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 ">
+                    <div class="property-item mb-30 shadow-lg">
+                      <a class="img">
+                        <div class="position-relative">
+                          <img src="{{ vich_uploader_asset(restaurant, 'imageFile') }}" alt="image" height="3000px" width="2000px" class="img-fluid rounded mx-auto">
+                          <div class="position-absolute top-0 end-0 opinion">
+                            <div class="bg-secondary p-3" style="opacity: 0.8">
+                                <div class="text-white text-center">
+                                  {{ mediaValoraciones[restaurant.id] }}
+                                </div> 
+                                <div class="text-white text-center">
+                                    {{ totalOpiniones[restaurant.id] }} reseñas
+                                </div>
+                              
+                            </div>
+                        </div>
+                      </div>
+                        
+                      </a>
+
+                      <div class="property-content">
+                        
+                        <div>
+                          <span class="city d-block mb-3 ">{{ restaurant.nombre }}</span>
+                          <div class="specs d-flex mb-4">
+                            <span class="d-block d-flex align-items-center me-3">
+                              <span class="me-2"><i class="fa-sharp fa-solid fa-location-dot"></i></span>
+                              <span class="caption">{{ restaurant.direccion }}</span>
+                            </span>
+
+                          </div>
+
+                          <div class="specs d-flex mb-4">
+                            <span class="d-block d-flex align-items-center me-3">
+                              <span class=" me-2"><i class="fa-solid fa-mobile-screen-button"></i></span>
+                              <span class="caption">{{ restaurant.contacto }}</span>
+                            </span>
+                          </div>
+
+                          <a class="specs d-flex mb-4" id="btn-mas-informacion">Más información</a>
+                          <div class="informacion-adicional mt-4" style="display:none;">
+                            <!-- Aquí va el contenido adicional -->
+                            <h6>Informacion acerca de nosotros:</h6>
+                            <span class="d-block mb-2 text-black-50">{{ restaurant.descripcion }}</span>
+                            <h6>Horario:</h6>
+                            <span class="d-block mb-2 text-black-50">{{ restaurant.horario|nl2br }}</span>
+                          </div>
+
+                          <a
+                            href="{{ path('app_login')}}"
+                            class="btn btn-primary py-2 px-3 text-center ">Reservar</a>
+
+                            
+                        </div>
+                      </div>
+                    </div>
+                    <!-- .item -->
+                  </div>
+            {% endfor %}
+
+                
+              </div>
+
+              <div
+                id="property-nav"
+                class="controls"
+                tabindex="0"
+                aria-label="Carousel Navigation"
+              >
+                <span
+                  class="prev"
+                  data-controls="prev"
+                  aria-controls="property"
+                  tabindex="-1"
+                  >Anterior</span
+                >
+                <span
+                  class="next"
+                  data-controls="next"
+                  aria-controls="property"
+                  tabindex="-1"
+                  >Siguiente</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section section-properties">
+      <div class="container">
+        <div class="row">
+        {# Listado de los restaurantes disponibles #}
+        {% for restaurante in restaurantes %}
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 ">
+            <div class="property-item mb-30 shadow-lg">
+              <a class="img">
+                <div class="position-relative">
+                  <img src="{{ vich_uploader_asset(restaurante, 'imageFile') }}" alt="image" height="3000px" width="2000px" class="img-fluid rounded mx-auto">
+                  <div class="position-absolute top-0 end-0 ">
+                    <div class="bg-secondary p-3" style="opacity: 0.8">
+                        <div class="text-white text-center">
+                                  {{ mediaValoraciones[restaurante.id] }}
+                                </div> 
+                                <div class="text-white text-center">
+                                    {{ totalOpiniones[restaurante.id] }} reseñas
+                                </div>
+                      
+                    </div>
+                </div>
+              </div>
+                
+              </a>
+
+              <div class="property-content">
+                
+                <div>
+                  <span class="city d-block mb-3">{{ restaurante.nombre }}</span>
+                  <div class="specs d-flex mb-4">
+                    <span class="d-block d-flex align-items-center me-3">
+                      <span class="me-2"><i class="fa-sharp fa-solid fa-location-dot"></i></span>
+                      <span class="caption">{{ restaurante.direccion }}</span>
+                    </span>
+
+                  </div>
+
+                  <div class="specs d-flex mb-4">
+                    <span class="d-block d-flex align-items-center me-3">
+                      <span class=" me-2"><i class="fa-solid fa-mobile-screen-button"></i></span>
+                      <span class="caption">{{ restaurante.contacto }}</span>
+                    </span>
+                  </div>
+
+                  <a class="specs d-flex mb-4" id="btn-mas-informacion">Más información</a>
+                  <div class="informacion-adicional mt-4" style="display:none;">
+                    <!-- Aquí va el contenido adicional -->
+                    <h6>Informacion acerca de nosotros:</h6>
+                    <span class="d-block mb-2 text-black-50">{{ restaurante.descripcion }}</span>
+                    <h6>Horario:</h6>
+                    <span class="d-block mb-2 text-black-50">{{ restaurante.horario|nl2br }}</span>
+                  </div>
+
+                  <a
+                  {# {{ reservaUrl|replace({'id': restaurante.id}) }} #}
+                    href="{{ path('app_login')}}"
+                    class="btn btn-primary py-2 px-3">Reservar</a
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- .item -->
+          </div>
+            {% endfor %}
+
+    
+        <div class="row align-items-center py-5">
+          <div class="col-lg-3">Pagination (1 of 10)</div>
+          <div class="col-lg-6 text-center">
+            <div class="custom-pagination">
+              <a href="#">1</a>
+              <a href="#" class="active">2</a>
+              <a href="#">3</a>
+              <a href="#">4</a>
+              <a href="#">5</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="widget">
+              <h3>Contacto</h3>
+              <address>Calle Valencia, Jaen 23006</address>
+              <ul class="list-unstyled links">
+                <li><a href="tel://11234567890">+34 953 59 24 43</a></li>
+                <li><a href="tel://11234567890">+34 953 59 24 43</a></li>
+                <li>
+                  <a href="mailto:info@mydomain.com">info@mydomain.com</a>
+                </li>
+              </ul>
+            </div>
+            <!-- /.widget -->
+          </div>
+          <!-- /.col-lg-4 -->
+          <div class="col-lg-4">
+            <div class="widget">
+              <h3>Sources</h3>
+              <ul class="list-unstyled float-start links">
+                <li><a href="#">Sobre nosotros</a></li>
+                <li><a href="#">Servicios</a></li>
+                <li><a href="#">Vision</a></li>
+                <li><a href="#">Mission</a></li>
+                <li><a href="#">Terminos</a></li>
+                <li><a href="#">Privacidad</a></li>
+              </ul>
+              <ul class="list-unstyled float-start links">
+                <li><a href="#">Partners</a></li>
+                <li><a href="#">Negocios</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Creative</a></li>
+              </ul>
+            </div>
+            <!-- /.widget -->
+          </div>
+          <!-- /.col-lg-4 -->
+          <div class="col-lg-4">
+            <div class="widget">
+              <h3>Links</h3>
+              <ul class="list-unstyled links">
+                <li><a href="#">Nuestra Vision</a></li>
+                <li><a href="#">Sobre nosotros</a></li>
+                <li><a href="#">Contactanos</a></li>
+              </ul>
+
+              <ul class="list-unstyled social">
+                <li>
+                  <a href="#"><span class="icon-instagram"></span></a>
+                </li>
+                <li>
+                  <a href="#"><span class="icon-twitter"></span></a>
+                </li>
+                <li>
+                  <a href="#"><span class="icon-facebook"></span></a>
+                </li>
+                <li>
+                  <a href="#"><span class="icon-linkedin"></span></a>
+                </li>
+                <li>
+                  <a href="#"><span class="icon-pinterest"></span></a>
+                </li>
+                <li>
+                  <a href="#"><span class="icon-dribbble"></span></a>
+                </li>
+              </ul>
+            </div>
+            <!-- /.widget -->
+          </div>
+          <!-- /.col-lg-4 -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row mt-5">
+          <div class="col-12 text-center">
+            <!-- 
+              **==========
+              NOTE: 
+              Please don't remove this copyright link unless you buy the license here https://untree.co/license/  
+              **==========
+            -->
+
+            <p>
+              Copyright &copy;
+              <script>
+                document.write(new Date().getFullYear());
+              </script>
+              . Reservados todos los derechos. &mdash; Diseñado por
+              <a href="#">Josemimb</a>
+              <!-- License information: https://untree.co/license/ -->
+            </p>
+            <div>
+              Distribuido por
+              <a href="#" target="_blank">Josemimb</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.container -->
+    </div>
+    <!-- /.site-footer -->
+
+    <!-- Preloader -->
+    <div id="overlayer"></div>
+    <div class="loader">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+     
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/tiny-slider.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/navbar.js"></script>
+    <script src="/js/counter.js"></script>
+    <script src="/js/custom.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/jquery-ui.js"></script>
+    <script>
+      $(document).ready(function() {
+          // Agrega evento clic a todos los enlaces con id "btn-mas-informacion"
+          $('a#btn-mas-informacion').click(function(event) {
+            event.preventDefault(); // Previene que el enlace haga su acción por defecto
+            $(this).siblings('.informacion-adicional').toggle('fast'); // Muestra u oculta el elemento hermano con la clase "informacion-adicional"
+            $(this).text(function(i, text) {
+              return text === "Más información" ? "Ocultar información" : "Más información";
+            }); // Cambia el texto del enlace según el estado del elemento
+          });
+        });
+    </script>
+  </body>
+</html>

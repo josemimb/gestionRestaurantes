@@ -1,0 +1,23 @@
+
+{% extends 'base.html.twig' %}
+  
+{% block title %}Nueva reserva{% endblock %}
+  
+{% block body %}
+    {% for flashMessage in app.flashes('error') %}
+        <div class="flash-notice alert alert-danger alert-dismissible fade show m-5" role="alert">{{ flashMessage }}</div>
+    {% endfor %}
+    <div class="container">
+        <h2 class="text-center mt-5 mb-3">Hacer reserva {{nombreRestaurante }}</h2>
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-outline-info float-right" href="{{ path('verRestaurantes') }}"> 
+                    Volver a ver restaurantes
+                </a>
+            </div>
+            <div class="card-body">
+                 {{ include('reserva/_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

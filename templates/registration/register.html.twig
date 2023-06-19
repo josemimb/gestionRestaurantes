@@ -1,0 +1,85 @@
+
+    <title>{% block title %}Click & Go{% endblock %}</title>
+        <link rel="shortcut icon" href="{{ asset('imagenes/Logo2.png') }}" />
+        {# "<object data="../public/images/logo.svg" width="300" height="300"> </object>" #}
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
+        <link rel="stylesheet" href="/css/style.css" />
+
+{% block body %}
+
+<body class="" style="background-color:#323232" >
+
+
+
+<section  >
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center align-items-center ">
+      <div class="col col-xl-12">
+        <div class="card shadow-lg mb-5 " style="border-radius: 1rem;">
+          <div class="row g-0">
+            <div class="col-md-6 col-lg-6 d-none d-md-block">
+              <img src="{{ asset('imagenes/loginRestaurante.jpeg') }}" height="100%"
+                alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem; height: 100%;" />
+            </div>
+            <div class="col-md-6 col-lg-5 d-flex align-items-center">
+              <div class="card-body p-4 p-lg-5 text-black">
+
+              <form name="registration_form" id="formulario_registro" method="post" >
+
+                    <div class="d-flex align-items-center mb-3  pb-1">
+                        <img src="{{ asset('imagenes/logo.png') }}" alt="Symfony!" width="150px" height="" />
+                    </div>
+
+                    <h1 class="fw-normal mb-3" style="letter-spacing: 1px;">Registrate</h1>
+
+                    {{ form_start(registrationForm) }}
+
+                    <div class="form-outline col-md-12" >
+                      {{ form_row(registrationForm.email, {'attr': {'class': 'form-control', 'id':'email'}})  }}
+
+                    </div>
+                    <div class="form-outline" >
+                        {{ form_row(registrationForm.plainPassword, {'label': 'Contraseña','attr': {'class': 'form-control', 'id':'contrasena'}}, {
+                             label: 'Contraseña'
+                           }) }}
+                    </div>
+                    <div class="form-outline" >
+                      {{ form_row(registrationForm.nombre, {'label': 'Nombre completo','attr': {'class': 'form-control', 'id':'nombre'}}) }}
+                    </div>
+                    <div class="form-outline my-2" >
+                      {{ form_row(registrationForm.contacto, {'label': 'Telefono','attr': {'class': 'form-control', 'id':'contacto'}}) }}
+                    </div>
+
+                    <div class="form-outline visually-hidden">
+                      {{ form_row(registrationForm.puntos, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    {# <div class="form-outline my-2">
+                      {{ form_row(registrationForm.roles, {'attr': {'class': 'form-control'}}) }}
+                    </div> #}
+                    
+                    <div class="mb-3">
+                      {{ form_row(registrationForm.agreeTerms,{'label': 'Aceptar terminos'}) }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg btn-block mb-2">Crear Cuenta</button>
+                    {{ form_end(registrationForm) }} 
+                
+                </form>
+
+                <a href="{{ path('inicio') }}"
+                      style="color: #393f81;">Inicio</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</body>
+{% endblock %}

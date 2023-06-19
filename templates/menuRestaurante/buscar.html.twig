@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+
+<div class="container">
+    <h1>Reservas encontradas para la fecha {{ fecha }}</h1>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Fecha y Hora</th>
+          <th>Lugar</th>
+          <th>Cancelacion</th>
+          <th>Mesa para:</th>
+          <th>Nombre</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reserva in reservas %}
+          <tr>
+            <td>{{ reserva.fechaHora ? reserva.fechaHora|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ reserva.lugar }}</td>
+            <td>{{ reserva.cancelacion ? 'Yes' : 'No' }}</td>
+            <td>{{ reserva.mesa }}</td>
+            <td>{{ reserva.usuario }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,93 @@
+.property-item .img img {
+  height: 300px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.my-label-class {
+  font-weight: bold;
+  color: black;
+}
+
+a{
+  text-decoration: none;
+}
+.a__modificado {
+  text-decoration: none;
+  color: black;
+  font-size: 15px;
+
+}
+.informacion-adicional {
+  color: black;
+}
+#btn-mas-informacion {
+  color: black;
+  font-size: 14px;
+}
+.myNav{
+  background-color: black;
+}
+.opinion {
+  background-color: #005555;
+}
+
+
+
+/*RESEÑAS*/
+.reviews-container {
+  margin: 50px auto;
+  width: 80%;
+}
+
+.reviewMain {
+  background-color: #fff;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.review {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.review-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.review-date {
+  font-size: 14px;
+}
+
+.review-text {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.review-rating {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.star {
+  color: #ffa500;
+}
+
+/* ESTILOS PARA LAS VALIDACIONES */
+
+.error {
+  border: 1px solid red;
+}
+
+.error-message {
+  color: red;
+}

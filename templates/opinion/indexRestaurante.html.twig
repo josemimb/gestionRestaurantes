@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+  
+{% block title %}opinion index{% endblock %}
+
+  
+{% block body %}
+
+ <style>
+
+    .pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination li {
+  margin: 0 5px;
+}
+
+.pagination li.active a {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+}
+
+.pagination li a {
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 3px;
+  color: #007bff;
+  display: inline-block;
+  padding: 6px 12px;
+  text-align: center;
+  text-decoration: none;
+}
+
+    </style>
+
+{# Mensajes de informacion al usuario, en este caso el opinion creado #}
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+  </symbol>
+  <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+  </symbol>
+  <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+  </symbol>
+</svg>
+
+{% for flash_message in app.session.flashbag.get('notice') %}
+    <div class="flash-notice alert alert-success alert-dismissible fade show m-5" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+        {{ flash_message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </button>
+    </div>
+{% endfor %}
+
+{% for flash_message in app.session.flashbag.get('actualizar') %}
+    <div class="flash-notice alert alert-success alert-dismissible fade show m-5" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+        {{ flash_message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </button>
+    </div>
+{% endfor %}
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center mt-2">OPINIONES</h2>
+                <a class="btn btn-outline-primary" href="{{ path('miRestaurante') }}"> 
+                    Restaurante
+                </a>
+            </div>
+            <div class="card-body table-responsive">
+                <table class="table table-bordered">
+                    <tr>
+                        <th class="text-center">Valoracion</th>
+                        <th class="text-center">Comentario</th>
+                        <th class="text-center">Usuario</th>
+                        <th class="text-center">Respuesta</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                    {% for opinion in restaurante.opinions %}
+                    <tr>
+                        <td class="text-center">{{ opinion.valoracion }}</td>
+                        <td class="text-center">{{ opinion.comentario }}</td>
+                        <td class="text-center">{{ opinion.user }}</td>
+                        <td class="text-center">{{ opinion.respuesta }}</td>
+                        <td>
+                    <a
+                        class="btn btn-outline-info"
+                        href="{{ path('app_opinion_edit', {'id': opinion.id}) }}">
+                        Responder
+                    </a>
+                    
+            </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                    {# <div class="pagination">
+                        {% if pagination.pageCount > 1 %}
+                            <ul>
+                            {% if pagination.getCurrentPageNumber() != 1 %}
+                                <li><a href="{{ path(pagination.getRoute(), pagination.getParams()|merge({'page': 1})) }}">Primero</a></li>
+                                {% set previousPage = pagination.getCurrentPageNumber() - 1 %}
+                                {% if previousPage > 0 %}
+                                <li><a href="{{ path(pagination.getRoute(), pagination.getParams()|merge({'page': previousPage})) }}">Anterior</a></li>
+                                {% endif %}
+                            {% endif %}
+
+                            {% for page in pagination.getPaginationData()['pagesInRange'] %}
+                                {% if page == pagination.getCurrentPageNumber() %}
+                                <li class="active"><a href="#">{{ page }}</a></li>
+                                {% else %}
+                                <li><a href="{{ path(pagination.getRoute(), pagination.getParams()|merge({'page': page})) }}">{{ page }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if pagination.getCurrentPageNumber() != pagination.pageCount %}
+                                <li><a href="{{ path(pagination.getRoute(), pagination.getParams()|merge({'page': pagination.getCurrentPageNumber() + 1})) }}">Siguiente</a></li>
+                                {# <li><a href="{{ path(pagination.getRoute(), pagination.getParams()|merge({'page': pagination.getCurrentPageNumber() - 1})) }}">Anterior</a></li> 
+
+                            {% endif %}
+                            </ul>
+                        {% endif %}
+                    </div> #}
+            </div>
+        </div>
+    </div>
+
+
+    
+  
+{% endblock %}

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="Untree.co" />
+        <link rel="shortcut icon" href="{{ asset('imagenes/Logo2.png') }}" />
+        <!-- Estilos de Flatpickr -->
+        <link rel="stylesheet" href="{{ asset('node_modules/flatpickr/dist/flatpickr.min.css') }}">
+
+        <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+    
+    <!-- Scripts personalizados -->
+    <script src="{{ asset('js/custom.js') }}"></script>
+
+        <meta name="description" content="" />
+        <meta name="keywords" content="bootstrap, bootstrap5" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <linkhref="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+        <link rel="stylesheet" href="/fonts/icomoon/style.css" />
+        <link rel="stylesheet" href="/fonts/flaticon/font/flaticon.css" />
+
+        <link rel="stylesheet" href="/css/tiny-slider.css" />
+        <link rel="stylesheet" href="/css/aos.css" />
+        <link rel="stylesheet" href="/css/myCss.css" />
+        <link rel="stylesheet" href="/css/style.css" />
+
+        <title>
+        Click & Go
+        </title>
+         <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
+
+        {% if not is_granted('IS_AUTHENTIFICATED_FULLY') %}
+
+        {% endif %}
+
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+        <style>
+
+            .btn-primary:hover {
+                /* Agrega aquí tus estilos personalizados para el hover */
+                background-color: hsl(180, 100%, 10%);
+              }
+        
+        </style>
+    </head>
+    <body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark mb-5 sticky-top p-4 myNav">
+    <div class="container-xl">
+      <a href="{{ path('inicio') }}" class="logo m-0 float-start text-decoration-none">Click & Go</a>
+      <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07XL" aria-controls="navbarsExample07XL" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon">
+        </span>
+      </button>
+      <div class="collapse navbar-collapse " id="navbarsExample07XL">  
+      {# div del toggle #}
+      {% if is_granted('ROLE_ADMIN') %}
+        <ul class="navbar-nav me-auto ms-auto mb-2 mb-lg-0 d-flex align-items-center ">
+          <li class="nav-item">
+            <a class="nav-link active" href="{{ path('admin') }}">Mantenimiento</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="{{ path('app_restaurante_index')}}">Restaurante</a>
+          </li>
+        </ul>
+        {% elseif is_granted('ROLE_RESTAURANTE')%}
+        <ul class="navbar-nav me-auto ms-auto mb-2 mb-lg-0 d-flex align-items-center ">
+          
+          <li class="nav-item">
+            <a class="nav-link active" href="{{ path('mis_reservas') }}">Reservas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="{{ path('miRestaurante') }}">Mi restaurante</a>
+          </li>
+        </ul>
+        {% else %}
+        <ul class="navbar-nav me-auto ms-auto mb-2 mb-lg-0 d-flex align-items-center ">
+          <li class="nav-item">
+            <a class="nav-link active" href="{{ path('verRestaurantes')}}">Restaurantes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="{{ path('misReservas')}}">Mis reservas</a>
+          </li>
+        </ul>
+        {% endif %}
+        {# separador #}
+        <p><code></code><code></code></p><hr><p></p>
+
+        {# Para pantallas tablets e inferiores #}
+        <ul class="navbar-nav me-auto ms-auto mb-2 mb-lg-0 d-flex align-items-center d-block d-lg-none ">
+                      
+          <li class="nav-item">
+            <a class="nav-link active" href="{{path('app_logout')}}">Cerrar sesion</a>
+          </li>
+          <li class="nav-item  dropdown">
+            <a class="nav-link active " href="{{path('perfil')}}" id="dropdown07XL" aria-expanded="false">Perfil</a>
+          </li>
+        </ul>
+        {# Para pantallas grandes #}
+        <form>
+          <ul class="navbar-nav navbar-light d-flex align-items-center">
+                        <li class="dropdown d-none d-lg-block">
+                            <a href="#" data-bs-toggle="dropdown" class="nav-link nav-link-lg nav-link-user cssToolTip " aria-expanded="false">
+                                <div class="avatar  ms-4">
+                                    {# <img src="assets/images/avatar/avatar-s-1.png" alt="" srcset=""> #}
+                                    <i class="fa-regular fa-circle-user fa-2x "></i>
+                            <div class="d-none d-md-block d-lg-inline-block ms-2">Bienvenido, {{app.user.nombre}} </div>
+                            {# {{ app.user.email }} #}
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end ">
+                                <a class="dropdown-item" href="{{path('perfil')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Perfil</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{path('app_logout')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Cerrar Sesion</a>
+                            </div>
+                        </li>
+                    </ul>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+        {% block body %}
+       
+
+        {% endblock %}
+
+{# Seccion Footer #}
+        <footer class="mt-5">
+            <div class="site-footer">
+        
+            <div class="container">
+            <div class="row">
+            <div class="col-lg-4">
+                <div class="widget">
+                <h3>Contacto</h3>
+                <address>Calle Valencia, Jaen 23006</address>
+                <ul class="list-unstyled links">
+                    <li><a style="text-decoration:none" href="tel://11234567890">+34 953 59 24 43</a></li>
+                    <li><a style="text-decoration:none" href="tel://11234567890">+34 653 59 24 43</a></li>
+                    <li>
+                    <a style="text-decoration:none" href="mailto:info@mydomain.com">info@mydomain.com</a>
+                    </li>
+                </ul>
+                </div>
+                <!-- /.widget -->
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <div class="widget">
+                <h3>Fuentes</h3>
+                <ul class="list-unstyled float-start links">
+                    <li><a href="#" style="text-decoration:none">Servicios</a></li>
+                    <li><a href="#" style="text-decoration:none">Vision</a></li>
+                    <li><a href="#" style="text-decoration:none">Mision</a></li>
+                    <li><a href="#" style="text-decoration:none">Terminos</a></li>
+                    <li><a href="#" style="text-decoration:none">Privacidad</a></li>
+                </ul>
+                </div>
+                <!-- /.widget -->
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <div class="widget">
+                <h3>Links</h3>
+                <ul class="list-unstyled links">
+                    <li><a href="#" style="text-decoration:none">Nuestra Vision</a></li>
+                    <li><a href="#" style="text-decoration:none">Sobre nosotros</a></li>
+                    <li><a href="#" style="text-decoration:none">Contactanos</a></li>
+                </ul>
+                <ul class="list-unstyled social">
+                    <li>
+                    <a href="#"><span class="icon-instagram"></span></a>
+                    </li>
+                    <li>
+                    <a href="#"><span class="icon-twitter"></span></a>
+                    </li>
+                    <li>
+                    <a href="#"><span class="icon-facebook"></span></a>
+                    </li>
+                    <li>
+                    <a href="#"><span class="icon-linkedin"></span></a>
+                    </li>
+                    <li>
+                    <a href="#"><span class="icon-pinterest"></span></a>
+                    </li>
+                    <li>
+                    <a href="#"><span class="icon-dribbble"></span></a>
+                    </li>
+                </ul>
+                </div>
+            </div>
+            </div>
+            <div class="row mt-5">
+            <div class="col-12 text-center">
+                <p>
+                Copyright &copy;
+                <script>
+                    document.write(new Date().getFullYear());
+                </script>
+                . Reservados todos los derechos. &mdash; Diseñado por
+                <a href="#" style="text-decoration:none">Josemimb</a>
+                <!-- License information: https://untree.co/license/ -->
+                </p>
+                <div>
+                Distribuido por
+                <a href="#" target="_blank" style="text-decoration:none">Josemimb</a>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- /.container -->
+        </div>
+        </footer>
+        <!-- /.site-footer -->
+        <!-- Preloader -->
+        <div id="overlayer"></div>
+        <div class="loader">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        </div>
+        {# SCRIPT JAVASCRIPT #}
+        <script src="/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/tiny-slider.js"></script>
+        <script src="/js/aos.js"></script>
+        <script src="/js/navbar.js"></script>
+        <script src="/js/counter.js"></script>
+        <script src="/js/custom.js"></script>
+        <script src="/js/jquery.js"></script>
+        <script src="/js/jquery-ui.js"></script>
+        <script>
+          $(document).ready(function() {
+              // Agrega evento clic a todos los enlaces con id "btn-mas-informacion"
+              $('a#btn-mas-informacion').click(function(event) {
+                event.preventDefault(); // Previene que el enlace haga su acción por defecto
+                $(this).siblings('.informacion-adicional').toggle('fast'); // Muestra u oculta el elemento hermano con la clase "informacion-adicional"
+                $(this).text(function(i, text) {
+                  return text === "Más información" ? "Ocultar información" : "Más información";
+                }); // Cambia el texto del enlace según el estado del elemento
+                $(this).css('color', 'black'); 
+                $(this).css('font-size', '14px');
+              });
+            });
+        </script>
+        <script src="{{ asset('node_modules/flatpickr/dist/flatpickr.min.js') }}"></script>
+        <script>
+            // Inicializar Flatpickr en los campos de fecha
+            flatpickr(".datepicker", {
+                // Opciones adicionales de configuración de Flatpickr
+            });
+        </script>
+
+<script>
+        // Inicializar los selectores de fecha global
+        const datepickers = document.querySelectorAll('.datepicker');
+        datepickers.forEach(function(datepicker) {
+            datepicker.type = 'date';
+        });
+    </script>
+    
+        <link rel="stylesheet" href="/ui/css/jquery-ui.css">
+        <link rel="stylesheet" href="/ui/css/jquery-ui.structure.css">
+        <link rel="stylesheet" href="/ui/css/jquery-ui.theme.css">
+    </body>
+</html>
